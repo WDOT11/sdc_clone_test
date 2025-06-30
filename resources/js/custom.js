@@ -1,0 +1,902 @@
+import { reactive } from "vue";
+
+export function registerGlobalProperties(app) {
+
+    /**
+     * User app URL
+     */
+    const userAppUrl = import.meta.env.VITE_APP_URL;
+    app.config.globalProperties.$userAppUrl = userAppUrl;
+
+    /**
+     * Home URL for User
+     */
+    app.config.globalProperties.$homeUrl = userAppUrl + "sdcsmuser/home";
+
+    /**
+     * Images
+     */
+    const globalImagePath = "/images/";
+    app.config.globalProperties.$imagePath = globalImagePath;
+
+     /**
+     * Storage image path(public storage)
+     */
+     const storageImagePath = "/storage/";
+     app.config.globalProperties.$storageImagePath = storageImagePath;
+     /**
+      * device family images
+      */
+     app.config.globalProperties.$deviceFamilyImages = storageImagePath + "device_families/";
+     /**
+      * organizations images
+      */
+     app.config.globalProperties.$organizationImages = storageImagePath + "organizations/";
+
+
+    /**
+     * Auth user data
+     */
+    app.config.globalProperties.$authUser = window.authUser;
+
+    /**
+     * User dashboard logo
+     */
+    app.config.globalProperties.$userDashLogo = globalImagePath + "logo.png";
+    app.config.globalProperties.$deleteIcon = globalImagePath + 'deleteic.svg';
+    app.config.globalProperties.$editIcIcon = globalImagePath + 'edit.svg';
+    app.config.globalProperties.$viewIcIcon = globalImagePath + 'show.svg';
+    app.config.globalProperties.$searchIcIcon = globalImagePath + 'search3.svg';
+    app.config.globalProperties.$profileIcIcon = globalImagePath + 'profile.svg';
+    app.config.globalProperties.$aboutIcIcon = globalImagePath + 'about.svg';
+    app.config.globalProperties.$lightLogo = globalImagePath + 'lightlogo.png';
+    app.config.globalProperties.$createImg = globalImagePath + 'create.svg';
+    app.config.globalProperties.$switchImg = globalImagePath + 'switch.svg';
+
+    /**
+     * Global loader image
+    */
+    app.config.globalProperties.$loaderImg = globalImagePath + 'about.svg';
+
+
+    /**
+     * Alert messages
+     */
+    const alertMessage = reactive({
+        success: false,
+        message: "",
+    });
+    app.config.globalProperties.$alertMessage = alertMessage;
+
+    /**
+     * Delete alert messages
+     */
+    const deleteAlertMessage = reactive({
+        data: {
+            isOpen: false,
+            heading: 'Change status',
+            message: "",
+            itemId: null,
+            callback: null,
+        },
+    });
+    app.config.globalProperties.$deleteAlertMessage = deleteAlertMessage;
+
+    /**
+     * Role For
+     */
+    /*
+    const roleFor = {
+        is_admin: 'Admin',
+        is_org_it_hod: 'Organization IT HOD',
+        is_org_it_director: 'Organization IT Director',
+        is_org_subscriber: 'Organization Subscriber',
+        is_subscriber: 'Subscriber'
+    };
+    */
+
+    const roleFor = [
+        {role_type: '1', name: 'Admin', value: 'is_admin'},
+        {role_type: '2', name: 'Organization IT HOD', value: 'is_org_it_hod'},
+        {role_type: '2', name: 'Organization IT Director', value: 'is_org_it_director'},
+        {role_type: '2', name: 'Organization Subscriber', value: 'is_org_subscriber'},
+        {role_type: '2', name: 'Subscriber', value: 'is_subscriber'},
+    ];
+
+    /* Set Laravel config globally */
+    app.config.globalProperties.$roleFor = roleFor;
+
+    /**
+    * Route Groups
+    */
+    const routeGroups = [
+        { id: 1, role_type: 1, groupName: 'Admin Dashboard', accessTypes: ['View', 'All'] },
+        { id: 2, role_type: 1, groupName: 'Admin Roles', accessTypes: ['View', 'All'] },
+        { id: 3, role_type: 1, groupName: 'Admin Routes', accessTypes: ['View', 'All'] },
+        { id: 4, role_type: 1, groupName: 'Admin Route Permission', accessTypes: ['View', 'All'] },
+        { id: 5, role_type: 1, groupName: 'Admin Claim Reason', accessTypes: ['View', 'All'] },
+        { id: 6, role_type: 1, groupName: 'Admin Organization', accessTypes: ['View', 'All'] },
+        { id: 8, role_type: 1, groupName: 'Admin Device Family', accessTypes: ['View', 'All'] },
+        { id: 9, role_type: 1, groupName: 'Admin Device Brand', accessTypes: ['View', 'All'] },
+        { id: 10, role_type: 1, groupName: 'Admin Device Model', accessTypes: ['View', 'All'] },
+        { id: 11, role_type: 1, groupName: 'Admin Devices', accessTypes: ['View', 'All'] },
+        { id: 12, role_type: 1, groupName: 'Admin Devices Default Plans', accessTypes: ['View', 'All'] },
+        { id: 13, role_type: 1, groupName: 'Admin Device Plan', accessTypes: ['View', 'All'] },
+        { id: 14, role_type: 1, groupName: 'Admin User', accessTypes: ['View', 'All'] },
+        { id: 15, role_type: 1, groupName: 'Admin Import Devices', accessTypes: ['View', 'All'] },
+        { id: 16, role_type: 2, groupName: 'User', accessTypes: ['View', 'All'] },
+        { id: 17, role_type: 2, groupName: 'User Auth', accessTypes: ['View', 'All'] },
+        { id: 18, role_type: 2, groupName: 'User Device', accessTypes: ['View', 'All'] },
+        { id: 19, role_type: 2, groupName: 'User Insured Claims', accessTypes: ['View', 'All'] },
+        { id: 20, role_type: 2, groupName: 'User Uninsured Repairs', accessTypes: ['View', 'All'] },
+        { id: 21, role_type: 2, groupName: 'User Shipping Supplies', accessTypes: ['View', 'All'] },
+        { id: 22, role_type: 1, groupName: 'Zoho Integration', accessTypes: ['View', 'All'] },
+        { id: 23, role_type: 1, groupName: 'Stripe Integration', accessTypes: ['View', 'All'] },
+        { id: 24, role_type: 2, groupName: 'Public', accessTypes: ['View', 'All'] },
+        { id: 25, role_type: 1, groupName: 'Admin Claims', accessTypes: ['View', 'All'] },
+        { id: 26, role_type: 1, groupName: 'Admin Repairs', accessTypes: ['View', 'All'] },
+        { id: 27, role_type: 1, groupName: 'Admin Role Settings', accessTypes: ['View', 'All'] },
+        { id: 28, role_type: 1, groupName: 'Admin Shipping Supplies', accessTypes: ['View', 'All'] },
+        { id: 29, role_type: 1, groupName: 'Admin Shipping Options(Claims)', accessTypes: ['View', 'All'] },
+        { id: 30, role_type: 1, groupName: 'Admin Login Logs', accessTypes: ['View', 'All'] },
+        { id: 31, role_type: 1, groupName: 'Admin Repair Reason', accessTypes: ['View', 'All'] },
+        { id: 32, role_type: 1, groupName: 'Admin Reports', accessTypes: ['View', 'All'] },
+        { id: 33, role_type: 1, groupName: 'Admin Shipping Options(Repairs)', accessTypes: ['View', 'All'] },
+        { id: 34, role_type: 1, groupName: 'Admin Transactions', accessTypes: ['View', 'All'] },
+        { id: 35, role_type: 2, groupName: 'User Transactions', accessTypes: ['View', 'All'] },
+        { id: 36, role_type: 2, groupName: 'User Registration', accessTypes: ['View', 'All'] },
+        { id: 37, role_type: 1, groupName: 'Admin Repair Plans', accessTypes: ['View', 'All'] },
+        { id: 38, role_type: 1, groupName: 'Admin Shipping Supply Boxes', accessTypes: ['View', 'All'] },
+        { id: 39, role_type: 1, groupName: 'SMTP Integration', accessTypes: ['View', 'All'] },
+        { id: 40, role_type: 2, groupName: 'User Support Ticket', accessTypes: ['View', 'All'] },
+        { id: 41, role_type: 1, groupName: 'Admin Support Ticket', accessTypes: ['View', 'All'] },
+        { id: 42, role_type: 2, groupName: 'User Device Renewal', accessTypes: ['View', 'All'] },
+    ];
+    app.config.globalProperties.$routeGroups = routeGroups;
+
+    /**
+     * Device Carrier
+     */
+    const deviceCarrier = [
+        "No Carrier", "AT&T",
+        "Boost Mobile", "Consumer Cellular",
+        "Cricket", "Metro",
+        "Mint Mobile", "Spectrum",
+        "Sprint", "T-Mobile",
+        "Verizon", "Visible",
+        "Xfinity", "Other"
+    ];
+    app.config.globalProperties.$deviceCarrier = deviceCarrier;
+    /**
+     * Device Capacity
+     */
+    const deviceCapacity = [
+        "16GB", "32GB",
+        "64GB", "128GB",
+        "256GB", "512GB",
+        "1TB",
+    ];
+    app.config.globalProperties.$deviceCapacity = deviceCapacity;
+
+    /**
+     * Billing Cycle
+     */
+    const billingCycle = [
+        "One Time(Days)", "Monthly",
+        "Quarterly", "Half Yearly",
+        "Yearly"
+    ];
+    app.config.globalProperties.$billingCycle = billingCycle;
+
+    const userClaimRepairStatus = [
+        { id: 1, status: 'Claim Received' },
+        { id: 2, status: 'Device repaired - shipping pending' },
+        { id: 3, status: 'Closed Device not sent' },
+        { id: 4, status: 'Extended repair - board repair' },
+        { id: 5, status: 'Shipping label sent' },
+        { id: 6, status: 'Waiting on customer input' },
+        { id: 7, status: 'Claim approved' },
+        { id: 8, status: 'Refund check processing' },
+        { id: 9, status: 'Refund check sent' },
+        { id: 10, status: 'Device Shipped' },
+        { id: 11, status: 'Claim Denied' },
+        { id: 12, status: 'Damaged Beyond repair' },
+        { id: 13, status: 'Device repair in progress - parts on order' },
+        { id: 14, status: 'Closed' },
+        { id: 15, status: 'New Device Ordered' },
+        { id: 16, status: 'Waiting on customer - documents still required' },
+        { id: 17, status: 'Waiting on payment' },
+        { id: 18, status: 'Unknown Status' }
+    ];
+    app.config.globalProperties.$userClaimRepairStatus = userClaimRepairStatus;
+
+    /**
+     * Country list
+     */
+    const countries = [
+        {name: 'Canada', code: 'CA'},
+        {name: 'United States', code: 'US'},
+    ];
+    app.config.globalProperties.$countries = countries;
+
+    /**
+     * State list (Added `country_code`)
+     */
+    const states = [
+        /* Canadian Provinces and Territories */
+        { name: "Alberta", abbreviation: "AB", country_code: "CA" },
+        { name: "British Columbia", abbreviation: "BC", country_code: "CA" },
+        { name: "Manitoba", abbreviation: "MB", country_code: "CA" },
+        { name: "New Brunswick", abbreviation: "NB", country_code: "CA" },
+        { name: "Newfoundland and Labrador", abbreviation: "NL", country_code: "CA" },
+        { name: "Nova Scotia", abbreviation: "NS", country_code: "CA" },
+        { name: "Ontario", abbreviation: "ON", country_code: "CA" },
+        { name: "Prince Edward Island", abbreviation: "PE", country_code: "CA" },
+        { name: "Quebec", abbreviation: "QC", country_code: "CA" },
+        { name: "Saskatchewan", abbreviation: "SK", country_code: "CA" },
+        { name: "Northwest Territories", abbreviation: "NT", country_code: "CA" },
+        { name: "Nunavut", abbreviation: "NU", country_code: "CA" },
+        { name: "Yukon", abbreviation: "YT", country_code: "CA" },
+
+        /* U.S. States */
+        { name: "Alabama", abbreviation: "AL", country_code: "US" },
+        { name: "Alaska", abbreviation: "AK", country_code: "US" },
+        { name: "Arizona", abbreviation: "AZ", country_code: "US" },
+        { name: "Arkansas", abbreviation: "AR", country_code: "US" },
+        { name: "California", abbreviation: "CA", country_code: "US" },
+        { name: "Colorado", abbreviation: "CO", country_code: "US" },
+        { name: "Connecticut", abbreviation: "CT", country_code: "US" },
+        { name: "Delaware", abbreviation: "DE", country_code: "US" },
+        { name: "Florida", abbreviation: "FL", country_code: "US" },
+        { name: "Georgia", abbreviation: "GA", country_code: "US" },
+        { name: "Hawaii", abbreviation: "HI", country_code: "US" },
+        { name: "Idaho", abbreviation: "ID", country_code: "US" },
+        { name: "Illinois", abbreviation: "IL", country_code: "US" },
+        { name: "Indiana", abbreviation: "IN", country_code: "US" },
+        { name: "Iowa", abbreviation: "IA", country_code: "US" },
+        { name: "Kansas", abbreviation: "KS", country_code: "US" },
+        { name: "Kentucky", abbreviation: "KY", country_code: "US" },
+        { name: "Louisiana", abbreviation: "LA", country_code: "US" },
+        { name: "Maine", abbreviation: "ME", country_code: "US" },
+        { name: "Maryland", abbreviation: "MD", country_code: "US" },
+        { name: "Massachusetts", abbreviation: "MA", country_code: "US" },
+        { name: "Michigan", abbreviation: "MI", country_code: "US" },
+        { name: "Minnesota", abbreviation: "MN", country_code: "US" },
+        { name: "Mississippi", abbreviation: "MS", country_code: "US" },
+        { name: "Missouri", abbreviation: "MO", country_code: "US" },
+        { name: "Montana", abbreviation: "MT", country_code: "US" },
+        { name: "Nebraska", abbreviation: "NE", country_code: "US" },
+        { name: "Nevada", abbreviation: "NV", country_code: "US" },
+        { name: "New Hampshire", abbreviation: "NH", country_code: "US" },
+        { name: "New Jersey", abbreviation: "NJ", country_code: "US" },
+        { name: "New Mexico", abbreviation: "NM", country_code: "US" },
+        { name: "New York", abbreviation: "NY", country_code: "US" },
+        { name: "North Carolina", abbreviation: "NC", country_code: "US" },
+        { name: "North Dakota", abbreviation: "ND", country_code: "US" },
+        { name: "Ohio", abbreviation: "OH", country_code: "US" },
+        { name: "Oklahoma", abbreviation: "OK", country_code: "US" },
+        { name: "Oregon", abbreviation: "OR", country_code: "US" },
+        { name: "Pennsylvania", abbreviation: "PA", country_code: "US" },
+        { name: "Rhode Island", abbreviation: "RI", country_code: "US" },
+        { name: "South Carolina", abbreviation: "SC", country_code: "US" },
+        { name: "South Dakota", abbreviation: "SD", country_code: "US" },
+        { name: "Tennessee", abbreviation: "TN", country_code: "US" },
+        { name: "Texas", abbreviation: "TX", country_code: "US" },
+        { name: "Utah", abbreviation: "UT", country_code: "US" },
+        { name: "Vermont", abbreviation: "VT", country_code: "US" },
+        { name: "Virginia", abbreviation: "VA", country_code: "US" },
+        { name: "Washington", abbreviation: "WA", country_code: "US" },
+        { name: "West Virginia", abbreviation: "WV", country_code: "US" },
+        { name: "Wisconsin", abbreviation: "WI", country_code: "US" },
+        { name: "Wyoming", abbreviation: "WY", country_code: "US" }
+    ];
+    app.config.globalProperties.$states = states;
+
+    /**
+     * cities list
+     */
+    const cities = [
+        /** Citis of the Canada */
+        { name: "Calgary", state_code: "AB", province: "CAL" },
+        { name: "Edmonton", state_code: "AB", province: "EDM" },
+        { name: "Red Deer", state_code: "AB", province: "RED" },
+        { name: "Lethbridge", state_code: "AB", province: "LET" },
+        { name: "Medicine Hat", state_code: "AB", province: "MED" },
+
+        { name: "Vancouver", state_code: "BC", province: "VAN" },
+        { name: "Victoria", state_code: "BC", province: "VIC" },
+        { name: "Surrey", state_code: "BC", province: "SUR" },
+        { name: "Burnaby", state_code: "BC", province: "BUR" },
+        { name: "Kelowna", state_code: "BC", province: "KEL" },
+
+        { name: "Winnipeg", state_code: "MB", province: "WIN" },
+        { name: "Brandon", state_code: "MB", province: "BRA" },
+
+        { name: "Saint John", state_code: "NB", province: "SAI" },
+        { name: "Moncton", state_code: "NB", province: "MON" },
+        { name: "Fredericton", state_code: "NB", province: "FRE" },
+
+        { name: "St. John’s", state_code: "NL", province: "STJ" },
+        { name: "Corner Brook", state_code: "NL", province: "COR" },
+
+        { name: "Halifax", state_code: "NS", province: "HAL" },
+        { name: "Sydney", state_code: "NS", province: "SYD" },
+        { name: "Dartmouth", state_code: "NS", province: "DAR" },
+
+        { name: "Toronto", state_code: "ON", province: "TOR" },
+        { name: "Ottawa", state_code: "ON", province: "OTT" },
+        { name: "Mississauga", state_code: "ON", province: "MIS" },
+        { name: "Brampton", state_code: "ON", province: "BRA" },
+        { name: "Hamilton", state_code: "ON", province: "HAM" },
+        { name: "London", state_code: "ON", province: "LON" },
+
+        { name: "Charlottetown", state_code: "PE", province: "CHA" },
+        { name: "Summerside", state_code: "PE", province: "SUM" },
+
+        { name: "Montreal", state_code: "QC", province: "MON" },
+        { name: "Quebec City", state_code: "QC", province: "QUE" },
+        { name: "Laval", state_code: "QC", province: "LAV" },
+        { name: "Gatineau", state_code: "QC", province: "GAT" },
+
+        { name: "Saskatoon", state_code: "SK", province: "SAS" },
+        { name: "Regina", state_code: "SK", province: "REG" },
+
+        { name: "Yellowknife", state_code: "NT", province: "YEL" },
+
+        { name: "Iqaluit", state_code: "NU", province: "IQA" },
+
+        { name: "Whitehorse", state_code: "YT", province: "WHI" },
+
+        /* Major Cities in the USA */
+        /* Alabama (AL) */
+        { name: "Birmingham", state_code: "AL", province: "BIR" },
+        { name: "Montgomery", state_code: "AL", province: "MON" },
+        { name: "Mobile", state_code: "AL", province: "MOB" },
+        { name: "Huntsville", state_code: "AL", province: "HUN" },
+        { name: "Tuscaloosa", state_code: "AL", province: "TUS" },
+        { name: "Hoover", state_code: "AL", province: "HOO" },
+        { name: "Dothan", state_code: "AL", province: "DOT" },
+        { name: "Auburn", state_code: "AL", province: "AUB" },
+        { name: "Decatur", state_code: "AL", province: "DEC" },
+        { name: "Madison", state_code: "AL", province: "MAD" },
+
+        // Alaska (AK)
+        { name: "Anchorage", state_code: "AK", province: "ANC" },
+        { name: "Fairbanks", state_code: "AK", province: "FAI" },
+        { name: "Juneau", state_code: "AK", province: "JUN" },
+        { name: "Sitka", state_code: "AK", province: "SIT" },
+        { name: "Ketchikan", state_code: "AK", province: "KET" },
+        { name: "Wasilla", state_code: "AK", province: "WAS" },
+        { name: "Kenai", state_code: "AK", province: "KEN" },
+        { name: "Kodiak", state_code: "AK", province: "KOD" },
+
+        // Arizona (AZ)
+        { name: "Phoenix", state_code: "AZ", province: "PHX" },
+        { name: "Tucson", state_code: "AZ", province: "TUC" },
+        { name: "Mesa", state_code: "AZ", province: "MES" },
+        { name: "Chandler", state_code: "AZ", province: "CHA" },
+        { name: "Glendale", state_code: "AZ", province: "GLE" },
+        { name: "Scottsdale", state_code: "AZ", province: "SCO" },
+        { name: "Gilbert", state_code: "AZ", province: "GIL" },
+        { name: "Tempe", state_code: "AZ", province: "TEM" },
+        { name: "Peoria", state_code: "AZ", province: "PEO" },
+        { name: "Surprise", state_code: "AZ", province: "SUR" },
+
+        // Arkansas (AR)
+        { name: "Little Rock", state_code: "AR", province: "LIT" },
+        { name: "Fort Smith", state_code: "AR", province: "FOR" },
+        { name: "Fayetteville", state_code: "AR", province: "FAY" },
+        { name: "Springdale", state_code: "AR", province: "SPR" },
+        { name: "Jonesboro", state_code: "AR", province: "JON" },
+        { name: "Rogers", state_code: "AR", province: "ROG" },
+        { name: "Conway", state_code: "AR", province: "CON" },
+        { name: "Bentonville", state_code: "AR", province: "BEN" },
+        { name: "Pine Bluff", state_code: "AR", province: "PIN" },
+        { name: "Hot Springs", state_code: "AR", province: "HOT" },
+
+        // California (CA)
+        { name: "Los Angeles", state_code: "CA", province: "LAX" },
+        { name: "San Diego", state_code: "CA", province: "SAN" },
+        { name: "San Jose", state_code: "CA", province: "SJO" },
+        { name: "San Francisco", state_code: "CA", province: "SFO" },
+        { name: "Fresno", state_code: "CA", province: "FRE" },
+        { name: "Sacramento", state_code: "CA", province: "SAC" },
+        { name: "Long Beach", state_code: "CA", province: "LON" },
+        { name: "Oakland", state_code: "CA", province: "OAK" },
+        { name: "Bakersfield", state_code: "CA", province: "BAK" },
+        { name: "Anaheim", state_code: "CA", province: "ANA" },
+
+        // Colorado (CO)
+        { name: "Denver", state_code: "CO", province: "DEN" },
+        { name: "Colorado Springs", state_code: "CO", province: "COL" },
+        { name: "Aurora", state_code: "CO", province: "AUR" },
+        { name: "Fort Collins", state_code: "CO", province: "FOR" },
+        { name: "Lakewood", state_code: "CO", province: "LAK" },
+        { name: "Thornton", state_code: "CO", province: "THO" },
+        { name: "Arvada", state_code: "CO", province: "ARV" },
+        { name: "Westminster", state_code: "CO", province: "WES" },
+        { name: "Pueblo", state_code: "CO", province: "PUE" },
+        { name: "Centennial", state_code: "CO", province: "CEN" },
+
+        // Connecticut (CT)
+        { name: "Bridgeport", state_code: "CT", province: "BRI" },
+        { name: "New Haven", state_code: "CT", province: "NEW" },
+        { name: "Stamford", state_code: "CT", province: "STA" },
+        { name: "Hartford", state_code: "CT", province: "HAR" },
+        { name: "Waterbury", state_code: "CT", province: "WAT" },
+        { name: "Norwalk", state_code: "CT", province: "NOR" },
+        { name: "Danbury", state_code: "CT", province: "DAN" },
+        { name: "New Britain", state_code: "CT", province: "NBR" },
+        { name: "Bristol", state_code: "CT", province: "BRI" },
+        { name: "Meriden", state_code: "CT", province: "MER" },
+
+        // Delaware (DE)
+        { name: "Wilmington", state_code: "DE", province: "WIL" },
+        { name: "Dover", state_code: "DE", province: "DOV" },
+        { name: "Newark", state_code: "DE", province: "NEW" },
+        { name: "Middletown", state_code: "DE", province: "MID" },
+        { name: "Smyrna", state_code: "DE", province: "SMY" },
+        { name: "Milford", state_code: "DE", province: "MIL" },
+        { name: "Seaford", state_code: "DE", province: "SEA" },
+        { name: "Georgetown", state_code: "DE", province: "GEO" },
+        { name: "Elsmere", state_code: "DE", province: "ELS" },
+        { name: "New Castle", state_code: "DE", province: "NCA" },
+
+        // Florida (FL)
+        { name: "Jacksonville", state_code: "FL", province: "JAC" },
+        { name: "Miami", state_code: "FL", province: "MIA" },
+        { name: "Tampa", state_code: "FL", province: "TAM" },
+        { name: "Orlando", state_code: "FL", province: "ORL" },
+        { name: "St. Petersburg", state_code: "FL", province: "STP" },
+        { name: "Hialeah", state_code: "FL", province: "HIA" },
+        { name: "Tallahassee", state_code: "FL", province: "TAL" },
+        { name: "Fort Lauderdale", state_code: "FL", province: "FOR" },
+        { name: "Port St. Lucie", state_code: "FL", province: "POR" },
+        { name: "Cape Coral", state_code: "FL", province: "CAP" },
+
+        // Georgia (GA)
+        { name: "Atlanta", state_code: "GA", province: "ATL" },
+        { name: "Augusta", state_code: "GA", province: "AUG" },
+        { name: "Columbus", state_code: "GA", province: "COL" },
+        { name: "Savannah", state_code: "GA", province: "SAV" },
+        { name: "Athens", state_code: "GA", province: "ATH" },
+        { name: "Sandy Springs", state_code: "GA", province: "SAN" },
+        { name: "Macon", state_code: "GA", province: "MAC" },
+        { name: "Roswell", state_code: "GA", province: "ROS" },
+        { name: "Albany", state_code: "GA", province: "ALB" },
+        { name: "Johns Creek", state_code: "GA", province: "JOH" },
+
+        // Hawaii (HI)
+        { name: "Honolulu", state_code: "HI", province: "HON" },
+        { name: "East Honolulu", state_code: "HI", province: "EAS" },
+        { name: "Pearl City", state_code: "HI", province: "PEA" },
+        { name: "Hilo", state_code: "HI", province: "HIL" },
+        { name: "Kailua", state_code: "HI", province: "KAI" },
+        { name: "Waipahu", state_code: "HI", province: "WAI" },
+        { name: "Kaneohe", state_code: "HI", province: "KAN" },
+        { name: "Mililani Town", state_code: "HI", province: "MIL" },
+        { name: "Kahului", state_code: "HI", province: "KAH" },
+        { name: "Ewa Gentry", state_code: "HI", province: "EWA" },
+
+        // Idaho (ID)
+        { name: "Boise", state_code: "ID", province: "BOI" },
+        { name: "Meridian", state_code: "ID", province: "MER" },
+        { name: "Nampa", state_code: "ID", province: "NAM" },
+        { name: "Idaho Falls", state_code: "ID", province: "IDA" },
+        { name: "Pocatello", state_code: "ID", province: "POC" },
+        { name: "Caldwell", state_code: "ID", province: "CAL" },
+        { name: "Coeur d'Alene", state_code: "ID", province: "COE" },
+        { name: "Twin Falls", state_code: "ID", province: "TWI" },
+        { name: "Lewiston", state_code: "ID", province: "LEW" },
+        { name: "Post Falls", state_code: "ID", province: "POS" },
+
+        // Illinois (IL)
+        { name: "Chicago", state_code: "IL", province: "CHI" },
+        { name: "Aurora", state_code: "IL", province: "AUR" },
+        { name: "Rockford", state_code: "IL", province: "ROC" },
+        { name: "Joliet", state_code: "IL", province: "JOL" },
+        { name: "Naperville", state_code: "IL", province: "NAP" },
+        { name: "Springfield", state_code: "IL", province: "SPR" },
+        { name: "Peoria", state_code: "IL", province: "PEO" },
+        { name: "Elgin", state_code: "IL", province: "ELG" },
+        { name: "Waukegan", state_code: "IL", province: "WAU" },
+        { name: "Cicero", state_code: "IL", province: "CIC" },
+
+        // Indiana (IN)
+        { name: "Indianapolis", state_code: "IN", province: "IND" },
+        { name: "Fort Wayne", state_code: "IN", province: "FOR" },
+        { name: "Evansville", state_code: "IN", province: "EVA" },
+        { name: "South Bend", state_code: "IN", province: "SOU" },
+        { name: "Carmel", state_code: "IN", province: "CAR" },
+        { name: "Bloomington", state_code: "IN", province: "BLO" },
+        { name: "Fishers", state_code: "IN", province: "FIS" },
+        { name: "Hammond", state_code: "IN", province: "HAM" },
+        { name: "Gary", state_code: "IN", province: "GAR" },
+        { name: "Lafayette", state_code: "IN", province: "LAF" },
+
+        // Iowa (IA)
+        { name: "Des Moines", state_code: "IA", province: "DES" },
+        { name: "Cedar Rapids", state_code: "IA", province: "CED" },
+        { name: "Davenport", state_code: "IA", province: "DAV" },
+        { name: "Sioux City", state_code: "IA", province: "SIO" },
+        { name: "Waterloo", state_code: "IA", province: "WAT" },
+        { name: "Iowa City", state_code: "IA", province: "IOW" },
+        { name: "West Des Moines", state_code: "IA", province: "WES" },
+        { name: "Ames", state_code: "IA", province: "AME" },
+        { name: "Council Bluffs", state_code: "IA", province: "COU" },
+        { name: "Dubuque", state_code: "IA", province: "DUB" },
+
+        // Kansas (KS)
+        { name: "Wichita", state_code: "KS", province: "WIC" },
+        { name: "Overland Park", state_code: "KS", province: "OVE" },
+        { name: "Kansas City", state_code: "KS", province: "KAN" },
+        { name: "Olathe", state_code: "KS", province: "OLA" },
+        { name: "Topeka", state_code: "KS", province: "TOP" },
+        { name: "Lawrence", state_code: "KS", province: "LAW" },
+        { name: "Shawnee", state_code: "KS", province: "SHA" },
+        { name: "Manhattan", state_code: "KS", province: "MAN" },
+        { name: "Lenexa", state_code: "KS", province: "LEN" },
+        { name: "Salina", state_code: "KS", province: "SAL" },
+
+        // Kentucky (KY)
+        { name: "Louisville", state_code: "KY", province: "LOU" },
+        { name: "Lexington", state_code: "KY", province: "LEX" },
+        { name: "Bowling Green", state_code: "KY", province: "BOW" },
+        { name: "Owensboro", state_code: "KY", province: "OWE" },
+        { name: "Covington", state_code: "KY", province: "COV" },
+        { name: "Richmond", state_code: "KY", province: "RIC" },
+        { name: "Georgetown", state_code: "KY", province: "GEO" },
+        { name: "Florence", state_code: "KY", province: "FLO" },
+        { name: "Hopkinsville", state_code: "KY", province: "HOP" },
+        { name: "Nicholasville", state_code: "KY", province: "NIC" },
+
+        // Louisiana (LA)
+        { name: "New Orleans", state_code: "LA", province: "NEW" },
+        { name: "Baton Rouge", state_code: "LA", province: "BAT" },
+        { name: "Shreveport", state_code: "LA", province: "SHR" },
+        { name: "Lafayette", state_code: "LA", province: "LAF" },
+        { name: "Lake Charles", state_code: "LA", province: "LAK" },
+        { name: "Kenner", state_code: "LA", province: "KEN" },
+        { name: "Bossier City", state_code: "LA", province: "BOS" },
+        { name: "Monroe", state_code: "LA", province: "MON" },
+        { name: "Alexandria", state_code: "LA", province: "ALE" },
+        { name: "Houma", state_code: "LA", province: "HOU" },
+
+        // Maine (ME)
+        { name: "Portland", state_code: "ME", province: "POR" },
+        { name: "Lewiston", state_code: "ME", province: "LEW" },
+        { name: "Bangor", state_code: "ME", province: "BAN" },
+        { name: "South Portland", state_code: "ME", province: "SOU" },
+        { name: "Auburn", state_code: "ME", province: "AUB" },
+        { name: "Biddeford", state_code: "ME", province: "BID" },
+        { name: "Sanford", state_code: "ME", province: "SAN" },
+        { name: "Saco", state_code: "ME", province: "SAC" },
+        { name: "Augusta", state_code: "ME", province: "AUG" },
+        { name: "Westbrook", state_code: "ME", province: "WES" },
+
+        // Maryland (MD)
+        { name: "Baltimore", state_code: "MD", province: "BAL" },
+        { name: "Frederick", state_code: "MD", province: "FRE" },
+        { name: "Rockville", state_code: "MD", province: "ROC" },
+        { name: "Gaithersburg", state_code: "MD", province: "GAI" },
+        { name: "Bowie", state_code: "MD", province: "BOW" },
+        { name: "Annapolis", state_code: "MD", province: "ANN" },
+        { name: "College Park", state_code: "MD", province: "COL" },
+        { name: "Salisbury", state_code: "MD", province: "SAL" },
+        { name: "Laurel", state_code: "MD", province: "LAU" },
+        { name: "Greenbelt", state_code: "MD", province: "GRE" },
+
+        // Massachusetts (MA)
+        { name: "Boston", state_code: "MA", province: "BOS" },
+        { name: "Worcester", state_code: "MA", province: "WOR" },
+        { name: "Springfield", state_code: "MA", province: "SPR" },
+        { name: "Cambridge", state_code: "MA", province: "CAM" },
+        { name: "Lowell", state_code: "MA", province: "LOW" },
+        { name: "Brockton", state_code: "MA", province: "BRO" },
+        { name: "Quincy", state_code: "MA", province: "QUI" },
+        { name: "Lynn", state_code: "MA", province: "LYN" },
+        { name: "New Bedford", state_code: "MA", province: "NEW" },
+        { name: "Fall River", state_code: "MA", province: "FAL" },
+
+        // Michigan (MI)
+        { name: "Detroit", state_code: "MI", province: "DET" },
+        { name: "Grand Rapids", state_code: "MI", province: "GRA" },
+        { name: "Warren", state_code: "MI", province: "WAR" },
+        { name: "Sterling Heights", state_code: "MI", province: "STE" },
+        { name: "Ann Arbor", state_code: "MI", province: "ANN" },
+        { name: "Lansing", state_code: "MI", province: "LAN" },
+        { name: "Flint", state_code: "MI", province: "FLI" },
+        { name: "Dearborn", state_code: "MI", province: "DEA" },
+        { name: "Livonia", state_code: "MI", province: "LIV" },
+        { name: "Troy", state_code: "MI", province: "TRO" },
+
+        // Minnesota (MN)
+        { name: "Minneapolis", state_code: "MN", province: "MIN" },
+        { name: "Saint Paul", state_code: "MN", province: "SAI" },
+        { name: "Rochester", state_code: "MN", province: "ROC" },
+        { name: "Duluth", state_code: "MN", province: "DUL" },
+        { name: "Bloomington", state_code: "MN", province: "BLO" },
+        { name: "Brooklyn Park", state_code: "MN", province: "BRO" },
+        { name: "Plymouth", state_code: "MN", province: "PLY" },
+        { name: "St. Cloud", state_code: "MN", province: "STC" },
+        { name: "Eagan", state_code: "MN", province: "EAG" },
+        { name: "Woodbury", state_code: "MN", province: "WOO" },
+
+        // Mississippi (MS)
+        { name: "Jackson", state_code: "MS", province: "JAC" },
+        { name: "Gulfport", state_code: "MS", province: "GUL" },
+        { name: "Southaven", state_code: "MS", province: "SOU" },
+        { name: "Biloxi", state_code: "MS", province: "BIL" },
+        { name: "Hattiesburg", state_code: "MS", province: "HAT" },
+        { name: "Olive Branch", state_code: "MS", province: "OLI" },
+        { name: "Tupelo", state_code: "MS", province: "TUP" },
+        { name: "Meridian", state_code: "MS", province: "MER" },
+        { name: "Greenville", state_code: "MS", province: "GRE" },
+        { name: "Horn Lake", state_code: "MS", province: "HOR" },
+
+        // Missouri (MO)
+        { name: "Kansas City", state_code: "MO", province: "KAN" },
+        { name: "St. Louis", state_code: "MO", province: "STL" },
+        { name: "Springfield", state_code: "MO", province: "SPR" },
+        { name: "Columbia", state_code: "MO", province: "COL" },
+        { name: "Independence", state_code: "MO", province: "IND" },
+        { name: "Lee's Summit", state_code: "MO", province: "LEE" },
+        { name: "O'Fallon", state_code: "MO", province: "OFA" },
+        { name: "St. Joseph", state_code: "MO", province: "STJ" },
+        { name: "St. Charles", state_code: "MO", province: "STC" },
+        { name: "Blue Springs", state_code: "MO", province: "BLU" },
+
+        // Montana (MT)
+        { name: "Billings", state_code: "MT", province: "BIL" },
+        { name: "Missoula", state_code: "MT", province: "MIS" },
+        { name: "Great Falls", state_code: "MT", province: "GRE" },
+        { name: "Bozeman", state_code: "MT", province: "BOZ" },
+        { name: "Butte", state_code: "MT", province: "BUT" },
+        { name: "Helena", state_code: "MT", province: "HEL" },
+        { name: "Kalispell", state_code: "MT", province: "KAL" },
+        { name: "Havre", state_code: "MT", province: "HAV" },
+        { name: "Anaconda", state_code: "MT", province: "ANA" },
+        { name: "Miles City", state_code: "MT", province: "MIL" },
+
+        // Nebraska (NE)
+        { name: "Omaha", state_code: "NE", province: "OMA" },
+        { name: "Lincoln", state_code: "NE", province: "LIN" },
+        { name: "Bellevue", state_code: "NE", province: "BEL" },
+        { name: "Grand Island", state_code: "NE", province: "GRA" },
+        { name: "Kearney", state_code: "NE", province: "KEA" },
+        { name: "Fremont", state_code: "NE", province: "FRE" },
+        { name: "Hastings", state_code: "NE", province: "HAS" },
+        { name: "North Platte", state_code: "NE", province: "NOR" },
+        { name: "Columbus", state_code: "NE", province: "COL" },
+        { name: "Norfolk", state_code: "NE", province: "NOF" },
+
+        // Nevada (NV)
+        { name: "Las Vegas", state_code: "NV", province: "LAS" },
+        { name: "Henderson", state_code: "NV", province: "HEN" },
+        { name: "Reno", state_code: "NV", province: "REN" },
+        { name: "North Las Vegas", state_code: "NV", province: "NOR" },
+        { name: "Sparks", state_code: "NV", province: "SPA" },
+        { name: "Carson City", state_code: "NV", province: "CAR" },
+        { name: "Elko", state_code: "NV", province: "ELK" },
+        { name: "Boulder City", state_code: "NV", province: "BOU" },
+        { name: "Mesquite", state_code: "NV", province: "MES" },
+        { name: "Fallon", state_code: "NV", province: "FAL" },
+
+        // New Hampshire (NH)
+        { name: "Manchester", state_code: "NH", province: "MAN" },
+        { name: "Nashua", state_code: "NH", province: "NAS" },
+        { name: "Concord", state_code: "NH", province: "CON" },
+        { name: "Dover", state_code: "NH", province: "DOV" },
+        { name: "Rochester", state_code: "NH", province: "ROC" },
+        { name: "Keene", state_code: "NH", province: "KEE" },
+        { name: "Portsmouth", state_code: "NH", province: "POR" },
+        { name: "Laconia", state_code: "NH", province: "LAC" },
+        { name: "Claremont", state_code: "NH", province: "CLA" },
+        { name: "Lebanon", state_code: "NH", province: "LEB" },
+
+        // New Jersey (NJ)
+        { name: "Newark", state_code: "NJ", province: "NEW" },
+        { name: "Jersey City", state_code: "NJ", province: "JER" },
+        { name: "Paterson", state_code: "NJ", province: "PAT" },
+        { name: "Elizabeth", state_code: "NJ", province: "ELI" },
+        { name: "Trenton", state_code: "NJ", province: "TRE" },
+        { name: "Clifton", state_code: "NJ", province: "CLI" },
+        { name: "Camden", state_code: "NJ", province: "CAM" },
+        { name: "Passaic", state_code: "NJ", province: "PAS" },
+        { name: "Union City", state_code: "NJ", province: "UNI" },
+        { name: "Bayonne", state_code: "NJ", province: "BAY" },
+
+        // New Mexico (NM)
+        { name: "Albuquerque", state_code: "NM", province: "ALB" },
+        { name: "Las Cruces", state_code: "NM", province: "LAS" },
+        { name: "Rio Rancho", state_code: "NM", province: "RIO" },
+        { name: "Santa Fe", state_code: "NM", province: "SAN" },
+        { name: "Roswell", state_code: "NM", province: "ROS" },
+        { name: "Farmington", state_code: "NM", province: "FAR" },
+        { name: "Clovis", state_code: "NM", province: "CLO" },
+        { name: "Hobbs", state_code: "NM", province: "HOB" },
+        { name: "Alamogordo", state_code: "NM", province: "ALA" },
+        { name: "Carlsbad", state_code: "NM", province: "CAR" },
+
+        // New York (NY)
+        { name: "New York", state_code: "NY", province: "NYC" },
+        { name: "Buffalo", state_code: "NY", province: "BUF" },
+        { name: "Rochester", state_code: "NY", province: "ROC" },
+        { name: "Yonkers", state_code: "NY", province: "YON" },
+        { name: "Syracuse", state_code: "NY", province: "SYR" },
+        { name: "Albany", state_code: "NY", province: "ALB" },
+        { name: "New Rochelle", state_code: "NY", province: "NRO" },
+        { name: "Mount Vernon", state_code: "NY", province: "MOU" },
+        { name: "Schenectady", state_code: "NY", province: "SCH" },
+        { name: "Utica", state_code: "NY", province: "UTI" },
+
+        // North Carolina (NC)
+        { name: "Charlotte", state_code: "NC", province: "CHA" },
+        { name: "Raleigh", state_code: "NC", province: "RAL" },
+        { name: "Greensboro", state_code: "NC", province: "GRE" },
+        { name: "Durham", state_code: "NC", province: "DUR" },
+        { name: "Winston-Salem", state_code: "NC", province: "WIN" },
+        { name: "Fayetteville", state_code: "NC", province: "FAY" },
+        { name: "Cary", state_code: "NC", province: "CAR" },
+        { name: "Wilmington", state_code: "NC", province: "WIL" },
+        { name: "High Point", state_code: "NC", province: "HIG" },
+        { name: "Greenville", state_code: "NC", province: "GRN" },
+
+        // North Dakota (ND)
+        { name: "Fargo", state_code: "ND", province: "FAR" },
+        { name: "Bismarck", state_code: "ND", province: "BIS" },
+        { name: "Grand Forks", state_code: "ND", province: "GRA" },
+        { name: "Minot", state_code: "ND", province: "MIN" },
+        { name: "West Fargo", state_code: "ND", province: "WES" },
+        { name: "Williston", state_code: "ND", province: "WIL" },
+        { name: "Dickinson", state_code: "ND", province: "DIC" },
+        { name: "Mandan", state_code: "ND", province: "MAN" },
+        { name: "Jamestown", state_code: "ND", province: "JAM" },
+        { name: "Wahpeton", state_code: "ND", province: "WAH" },
+
+        // Ohio (OH)
+        { name: "Columbus", state_code: "OH", province: "COL" },
+        { name: "Cleveland", state_code: "OH", province: "CLE" },
+        { name: "Cincinnati", state_code: "OH", province: "CIN" },
+        { name: "Toledo", state_code: "OH", province: "TOL" },
+        { name: "Akron", state_code: "OH", province: "AKR" },
+        { name: "Dayton", state_code: "OH", province: "DAY" },
+        { name: "Parma", state_code: "OH", province: "PAR" },
+        { name: "Canton", state_code: "OH", province: "CAN" },
+        { name: "Youngstown", state_code: "OH", province: "YOU" },
+        { name: "Lorain", state_code: "OH", province: "LOR" },
+
+        // Oklahoma (OK)
+        { name: "Oklahoma City", state_code: "OK", province: "OKC" },
+        { name: "Tulsa", state_code: "OK", province: "TUL" },
+        { name: "Norman", state_code: "OK", province: "NOR" },
+        { name: "Broken Arrow", state_code: "OK", province: "BRO" },
+        { name: "Lawton", state_code: "OK", province: "LAW" },
+        { name: "Edmond", state_code: "OK", province: "EDM" },
+        { name: "Moore", state_code: "OK", province: "MOO" },
+        { name: "Midwest City", state_code: "OK", province: "MID" },
+        { name: "Enid", state_code: "OK", province: "ENI" },
+        { name: "Stillwater", state_code: "OK", province: "STI" },
+
+        // Oregon (OR)
+        { name: "Portland", state_code: "OR", province: "POR" },
+        { name: "Salem", state_code: "OR", province: "SAL" },
+        { name: "Eugene", state_code: "OR", province: "EUG" },
+        { name: "Gresham", state_code: "OR", province: "GRE" },
+        { name: "Hillsboro", state_code: "OR", province: "HIL" },
+        { name: "Beaverton", state_code: "OR", province: "BEA" },
+        { name: "Bend", state_code: "OR", province: "BEN" },
+        { name: "Medford", state_code: "OR", province: "MED" },
+        { name: "Springfield", state_code: "OR", province: "SPR" },
+        { name: "Corvallis", state_code: "OR", province: "COR" },
+
+         // Pennsylvania (PA)
+        { name: "Philadelphia", state_code: "PA", province: "PHI" },
+        { name: "Pittsburgh", state_code: "PA", province: "PIT" },
+        { name: "Allentown", state_code: "PA", province: "ALL" },
+        { name: "Erie", state_code: "PA", province: "ERI" },
+        { name: "Reading", state_code: "PA", province: "REA" },
+        { name: "Scranton", state_code: "PA", province: "SCR" },
+        { name: "Bethlehem", state_code: "PA", province: "BET" },
+        { name: "Lancaster", state_code: "PA", province: "LAN" },
+        { name: "Harrisburg", state_code: "PA", province: "HAR" },
+        { name: "York", state_code: "PA", province: "YOR" },
+        { name: "State College", state_code: "PA", province: "STC" },
+
+        // Rhode Island (RI)
+        { name: "Providence", state_code: "RI", province: "PRO" },
+        { name: "Warwick", state_code: "RI", province: "WAR" },
+        { name: "Cranston", state_code: "RI", province: "CRA" },
+        { name: "Pawtucket", state_code: "RI", province: "PAW" },
+        { name: "Newport", state_code: "RI", province: "NEW" },
+
+        // South Carolina (SC)
+        { name: "Columbia", state_code: "SC", province: "COL" },
+        { name: "Charleston", state_code: "SC", province: "CHA" },
+        { name: "North Charleston", state_code: "SC", province: "NCH" },
+        { name: "Mount Pleasant", state_code: "SC", province: "MPL" },
+        { name: "Rock Hill", state_code: "SC", province: "ROC" },
+
+        // South Dakota (SD)
+        { name: "Sioux Falls", state_code: "SD", province: "SIO" },
+        { name: "Rapid City", state_code: "SD", province: "RAP" },
+        { name: "Aberdeen", state_code: "SD", province: "ABE" },
+        { name: "Brookings", state_code: "SD", province: "BRO" },
+
+        // Tennessee (TN)
+        { name: "Nashville", state_code: "TN", province: "NAS" },
+        { name: "Memphis", state_code: "TN", province: "MEM" },
+        { name: "Knoxville", state_code: "TN", province: "KNO" },
+        { name: "Chattanooga", state_code: "TN", province: "CHA" },
+        { name: "Clarksville", state_code: "TN", province: "CLA" },
+
+        // Texas (TX)
+        { name: "Houston", state_code: "TX", province: "HOU" },
+        { name: "San Antonio", state_code: "TX", province: "SAN" },
+        { name: "Dallas", state_code: "TX", province: "DAL" },
+        { name: "Austin", state_code: "TX", province: "AUS" },
+        { name: "Fort Worth", state_code: "TX", province: "FTW" },
+        { name: "El Paso", state_code: "TX", province: "ELP" },
+        { name: "Arlington", state_code: "TX", province: "ARL" },
+        { name: "Corpus Christi", state_code: "TX", province: "COR" },
+
+        // Utah (UT)
+        { name: "Salt Lake City", state_code: "UT", province: "SLC" },
+        { name: "West Valley City", state_code: "UT", province: "WVC" },
+        { name: "Provo", state_code: "UT", province: "PRO" },
+        { name: "West Jordan", state_code: "UT", province: "WJO" },
+        { name: "Orem", state_code: "UT", province: "ORE" },
+
+        // Vermont (VT)
+        { name: "Burlington", state_code: "VT", province: "BUR" },
+        { name: "South Burlington", state_code: "VT", province: "SOB" },
+        { name: "Rutland", state_code: "VT", province: "RUT" },
+        { name: "Barre", state_code: "VT", province: "BAR" },
+
+        // Virginia (VA)
+        { name: "Virginia Beach", state_code: "VA", province: "VAB" },
+        { name: "Norfolk", state_code: "VA", province: "NOR" },
+        { name: "Chesapeake", state_code: "VA", province: "CHE" },
+        { name: "Richmond", state_code: "VA", province: "RIC" },
+        { name: "Newport News", state_code: "VA", province: "NEN" },
+
+        // Washington (WA)
+        { name: "Seattle", state_code: "WA", province: "SEA" },
+        { name: "Spokane", state_code: "WA", province: "SPO" },
+        { name: "Tacoma", state_code: "WA", province: "TAC" },
+        { name: "Vancouver", state_code: "WA", province: "VAN" },
+        { name: "Bellevue", state_code: "WA", province: "BEL" },
+
+        // West Virginia (WV)
+        { name: "Charleston", state_code: "WV", province: "CHA" },
+        { name: "Huntington", state_code: "WV", province: "HUN" },
+        { name: "Morgantown", state_code: "WV", province: "MOR" },
+        { name: "Parkersburg", state_code: "WV", province: "PAR" },
+
+        // Wisconsin (WI)
+        { name: "Milwaukee", state_code: "WI", province: "MIL" },
+        { name: "Madison", state_code: "WI", province: "MAD" },
+        { name: "Green Bay", state_code: "WI", province: "GRB" },
+        { name: "Kenosha", state_code: "WI", province: "KEN" },
+        { name: "Racine", state_code: "WI", province: "RAC" },
+
+        // Wyoming (WY)
+        { name: "Cheyenne", state_code: "WY", province: "CHE" },
+        { name: "Casper", state_code: "WY", province: "CAS" },
+        { name: "Laramie", state_code: "WY", province: "LAR" },
+        { name: "Gillette", state_code: "WY", province: "GIL" }
+    ];
+
+    app.config.globalProperties.$cities = cities;
+
+    /* Box Types */
+    const boxTypes = [
+        { id: 1, type: 'Padded Envelopes' },
+        { id: 2, type: 'Priority Mail Medium Box' },
+        { id: 3, type: 'Priority Mail 1092 Box (13x12x2)' },
+        { id: 4, type: 'Priority Mail 1095 Box (15x12x3)' },
+        { id: 5, type: 'Brown 12x12x12 Box' },
+    ];
+    app.config.globalProperties.$boxTypes = boxTypes;
+
+}
